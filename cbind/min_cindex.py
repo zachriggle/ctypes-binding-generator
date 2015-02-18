@@ -2,6 +2,7 @@
 
 import sys as _python_sys
 from ctypes import *
+from ctypes.util import find_library
 
 # pylint: disable-all
 from cbind.compatibility import decode_str
@@ -14,12 +15,7 @@ from cbind.min_cindex_helper import (check_cursor,
                                      SourceLocationMixin,
                                      TypeMixin)
 
-if _python_sys.platform == 'darwin':
-    _lib = cdll.LoadLibrary('libclang.dylib')
-elif _python_sys.platform == 'win32' or _python_sys.platform == 'cygwin':
-    _lib = cdll.LoadLibrary('libclang.dll')
-else:
-    _lib = cdll.LoadLibrary('libclang.so')
+_lib = cdll.LoadLibrary(find_library('clang') or find_library('libclang'))
 
 
 import types as _python_types
